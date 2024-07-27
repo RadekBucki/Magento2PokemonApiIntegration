@@ -5,7 +5,6 @@ namespace Cepdtech\Pokemon\Test\Unit\Model;
 
 use Cepdtech\Pokemon\Dictionary\Attribute as AttributeDictionary;
 use Cepdtech\Pokemon\Model\PokemonImage;
-use Magento\Framework\Data\Collection;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Driver\File as FileDriver;
