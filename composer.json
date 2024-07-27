@@ -6,9 +6,9 @@
   "require": {
     "magento/framework": "*"
   },
-  "license": [
-    "Proprietary"
-  ],
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "prefer-stable": true,
   "autoload": {
     "files": [
         "registration.php"

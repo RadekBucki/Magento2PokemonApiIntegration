@@ -2,6 +2,12 @@
 
 Magento 2 module to integrate with PokeAPI
 
+## Setup
+
+```bash
+composer require cepdtech/pokemon
+```
+
 ## ADR
 
 ### Write own Pokemon API client
