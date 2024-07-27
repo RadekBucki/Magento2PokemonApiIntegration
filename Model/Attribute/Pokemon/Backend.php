@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cepdtech\Pokemon\Model\Attribute\Pokemon;
 
+use Cepdtech\Pokemon\Model\PokeApi\PokeApiFacade;
 use Cepdtech\Pokemon\Model\PokemonImage;
 use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
 use Magento\Catalog\Model\Product;
@@ -15,10 +16,12 @@ use Magento\Framework\Exception\LocalizedException;
 class Backend extends AbstractBackend
 {
     /**
-     * @param PokemonImage $pokemonImageUploader
+     * @param PokemonImage $pokemonImage
+     * @param PokeApiFacade $pokeApiFacade
      */
     public function __construct(
         private readonly PokemonImage $pokemonImage,
+        private readonly PokeApiFacade $pokeApiFacade,
     ) {
     }
 
@@ -30,7 +33,8 @@ class Backend extends AbstractBackend
      */
     public function beforeSave($object): Backend
     {
-        $url = 'https://static.posters.cz/image/1300/plakaty/pokemon-pikachu-neon-i71936.jpg';
+        $value = $object->getData($this->getAttribute()->getName());
+        $url = $this->pokeApiFacade->getPokemonImageUrl($value);
 
         $imagePath = $this->pokemonImage->uploadFromUrl($url);
         $this->pokemonImage->addImageToMediaGallery($object, $imagePath);
