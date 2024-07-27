@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cepdtech\Pokemon\Test\Unit\Model\PokeApi;
 
+use Cepdtech\Pokemon\Exception\PokeApiException;
 use Cepdtech\Pokemon\Model\PokeApi\Client;
 use Cepdtech\Pokemon\Model\PokeApi\PokemonDetails;
 use GuzzleHttp\Exception\TransferException;
@@ -96,9 +97,8 @@ class PokemonDetailsTest extends TestCase
             ->method('error')
             ->with('Error getting pokemon details: Error');
 
-        $result = $this->pokemonDetails->get('pikachu');
-
-        $this->assertNull($result);
+        $this->expectException(PokeApiException::class);
+        $this->pokemonDetails->get('pikachu');
     }
 
     public function testShouldLogApiError()
@@ -120,8 +120,7 @@ class PokemonDetailsTest extends TestCase
             ->method('error')
             ->with('Error getting pokemon details: Error');
 
-        $result = $this->pokemonDetails->get('pikachu');
-
-        $this->assertNull($result);
+        $this->expectException(PokeApiException::class);
+        $this->pokemonDetails->get('pikachu');
     }
 }

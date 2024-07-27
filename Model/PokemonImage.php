@@ -7,7 +7,6 @@ use Cepdtech\Pokemon\Dictionary\Attribute as AttributeDictionary;
 use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Data\Collection;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem\Driver\File as FileDriver;
 use Magento\Framework\Exception\FileSystemException;

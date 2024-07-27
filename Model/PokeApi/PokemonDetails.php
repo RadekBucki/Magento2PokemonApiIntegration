@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cepdtech\Pokemon\Model\PokeApi;
 
+use Cepdtech\Pokemon\Exception\PokeApiException;
 use GuzzleHttp\Exception\GuzzleException;
 use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Serialize\SerializerInterface;
@@ -41,7 +42,7 @@ class PokemonDetails
 
         if ($this->applicationCache === null) {
             $cachedValue = $this->cache->load(self::CACHE_KEY);
-            $this->applicationCache = $this->serializer->unserialize($cachedValue ?? '[]');
+            $this->applicationCache = $this->serializer->unserialize($cachedValue ?: '[]');
             if (isset($this->applicationCache[$name])) {
                 return $this->applicationCache[$name];
             }
@@ -62,6 +63,7 @@ class PokemonDetails
     /**
      * @param string $name
      * @return array|null
+     * @throws PokeApiException
      */
     private function getResponseArray(string $name): ?array
     {
@@ -69,12 +71,13 @@ class PokemonDetails
             $result = $this->client->get(sprintf(self::ENDPOINT, $name));
         } catch (GuzzleException $e) {
             $this->logger->error('Error getting pokemon details: ' . $e->getMessage());
-            return null;
+            throw new PokeApiException('Error getting pokemon details: ' . $e->getMessage(), previous: $e);
         }
 
         if ($result->getStatusCode() !== 200) {
-            $this->logger->error('Error getting pokemon details: ' . $result->getBody()->getContents());
-            return null;
+            $error = $result->getBody()->getContents();
+            $this->logger->error('Error getting pokemon details: ' . $error);
+            throw new PokeApiException('Error getting pokemon details: ' . $error);
         }
 
         return $this->serializer->unserialize($result->getBody()->getContents());
